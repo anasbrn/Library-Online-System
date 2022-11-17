@@ -263,6 +263,11 @@ button a{
     width: 250px;
 }
 
+.updateForm{
+    margin: auto;
+    margin-top: 20px;
+    width: 40%;
+}
 
 @media screen and (max-width: 767px) {
     .child {
