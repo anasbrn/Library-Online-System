@@ -3,22 +3,26 @@
     include 'scripts.php' ;
     include_once 'head.php' ;
     include_once 'sidebar.php' ;
+    if(!isset($_SESSION['welcomeBack'])){
+        header("location: signIn.php");
+    }
 
 ?>
 
         <!-- <h2 class="mt-1 text-center">👋Welcome back ** !</h1> -->
-        <?php if(isset($_SESSION['welcome'])) : ?> 
-                <div class="text-center">
-                    <?php echo $_SESSION['welcome']; ?>
+        <?php if(isset($_SESSION['welcomeBack'])) : ?> 
+                <div class="mt-2 ms-4 fw-bold h2">
+                    <?php echo $_SESSION['welcomeBack']; ?>
                 </div>
-                <?php unset($_SESSION['welcome']); ?>
+               
         <?php endif ?>
+
         <h3 class="titles">Dashboard</h3>
         <div class="statistics">
             <div class="statistics_box d-flex justify-content-start align-items-center">
                 <i class="fa fa-users"></i>
                 <div>
-                    <h3>0</h3>
+                    <h3><?php countUsers() ?></h3>
                     <p class="text-muted h5">New users</p>
                 </div>
             </div>

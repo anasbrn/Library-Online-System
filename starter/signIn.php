@@ -1,5 +1,8 @@
 <?php 
     include 'scripts.php' ;
+    if(isset($_SESSION['welcomeBack'])){
+        header('location: dashboard.php') ;
+    }
 ?>
 
 <!DOCTYPE html>

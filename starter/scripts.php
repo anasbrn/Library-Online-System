@@ -62,6 +62,14 @@ function countBooks(){
     echo $data['numberBooks'] ;
 }
 
+function countUsers(){
+    global $connection ;
+    $sql = " SELECT COUNT(userId) AS numberUsers FROM user " ;
+    $result = mysqli_query($connection, $sql) ;
+    $data = mysqli_fetch_assoc($result) ;
+    echo $data['numberUsers'] ;
+}
+
 function recentBooks(){
     global $connection ;
     $sql = " SELECT title, categoryName FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
@@ -100,7 +108,7 @@ function register(){
 
     $check      = " SELECT * FROM `user` WHERE `email` = '$email' " ;
     $result     = mysqli_query($connection, $check) ;
-    $row        = mysqli_fetch_assoc($result) ;
+
     if (mysqli_num_rows($result) > 0) {
         header("location: signUp.php") ;
         $_SESSION['check'] = "This email already exists!" ;
@@ -109,19 +117,9 @@ function register(){
     else {
         $sql    = " INSERT INTO `user` VALUES (null, '$username', '$email', '$password') " ;
         $result2 = mysqli_query($connection, $sql) ;
-    }
-
-    if ($result2){
         header("location: dashboard.php") ; 
-        // $_SESSION['welcome']    = " 👋 Welcome.$row['username']" ;
-        echo "Add successfully" ;
         
     }
-
-    else {
-        echo "Failed!" ;
-    }
-    echo "end" ;
 }
 
 function signIn(){
@@ -130,10 +128,13 @@ function signIn(){
     $password   = md5($_POST['password']) ;
     $sql        = " SELECT * FROM `user` WHERE `email` = '$email' AND `userPassword` = '$password' "  ;
     $result     = mysqli_query($connection, $sql) ;
+    $row        = mysqli_fetch_assoc($result) ;
     if (mysqli_num_rows($result) > 0) {
         $_SESSION['email']      = '$email' ;
         $_SESSION['password']   = '$password' ;
         header("location: dashboard.php") ;
+        $_SESSION['welcomeBack']    = " 👋 Welcome back ".$row['username']." !";
+
     }
 
     else {
