@@ -219,17 +219,17 @@ button a{
 .statistics2{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
     margin-right: 10px;
 
 }
 
 .statistics_box{
     background: white;
-    width: 215px;
+    width: 300px;
     padding: 10px 15px;
     border-radius: 5px;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .statistics .statistics_box i{
@@ -255,14 +255,12 @@ button a{
     background-color: #217ab6;
 }
 
-.statistics .statistics_box:nth-child(4) i{
-    background-color: #0f8b2a;
-}
+
 
 .table{
-    margin-left: 20px;
+
     border-radius: 5px;
-    width: 490px;
+    width: 93%;
 }
 
 .table_books{

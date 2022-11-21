@@ -8,7 +8,7 @@
             <li class="list active"> <i class="fa fa-desktop text-muted"></i><a  class="text-muted" href="dashboard.php">Dashboard</a> </li>
             <li class="list active"> <i class="fa fa-book text-muted"></i><a class="text-muted" href="books.php">Books</a> </li>
             <li class="list active"> <i class="fa fa-user text-muted"></i><a class="text-muted" href="profile.php">Profile</a> </li>
-            <li class="list active"> <i class="fa fa-sign-out text-muted"></i><a class="text-muted" href="logout.php">Logout</a> </li>
+            <li class="list active"> <i class="fa fa-sign-out-alt text-muted"></i><a class="text-muted" href="logout.php">Logout</a> </li>
         </div>
     </section>
 

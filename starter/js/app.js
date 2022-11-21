@@ -114,3 +114,15 @@ function passwordValidation() {
     }
 }
 
+
+// function successAdd() {
+//     Swal.fire({
+//         title               : "Add Successfully",
+//         confirmButtonColor  : "#0d6efd",
+//         icon                : "success",
+//         iconColor           : "#0d6efd"  
+//     })
+// }
+
+// document.getElementById("save").addEventListener('click', successAdd()) ;
+

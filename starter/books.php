@@ -13,11 +13,15 @@
         <button class="btn btn-info btn-rounded text-white" onclick="resetForm()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add book<i class="fa fa-plus mx-1 text-dark"></i></button>
     </div>
 
-   <?php getBooks() ?>
+    <?php getBooks() ?>
     
+ 
+    <!-- <?php if(isset($_GET['alert'])) : ?>
+      <?php echo "<script> alert('".$_GET['alert']."')</script>" ?>
+    <?php endif ?> -->
 
 
-
+    
 
 <!-- Modal Add Book -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -49,7 +53,7 @@
           </div>
           <div class="mb-3">
             <label class="form-label" for="photo">Photo</label>
-            <input class="form-control" type="file" name="img" value="power-of-now.jpg" required>
+            <input class="form-control" type="file" name="img" required>
           </div>
 
           <div class="mb-3">
@@ -59,7 +63,7 @@
       </div>
       <div class="modal-footer" id="buttonModal">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info text-white" name="save">Save</button>
+        <button type="submit" class="btn btn-info text-white" name="save" id="addBook" >Save</button>
         
       </div>
       
@@ -68,7 +72,7 @@
   </div>
 </div>
 
-
+    
 <!-- Modal Edit Book -->
 <div class="modal fade" id="editbook" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
@@ -120,6 +124,46 @@
   </div>
 </div>
 <script src="/starter/js/app.js"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<?php if(isset($_GET['addAlert'])) : ?>
+      <?php echo '<script> 
+                          Swal.fire({
+                              title               : "Book has been added Successfully",
+                              confirmButtonColor  : "#3BCEE5",
+                              icon                : "success",
+                              iconColor           : "#3BCEE5"  
+                          })
+                  </script>' ; ?>
+      <?php endif ?>
+
+      <?php if(isset($_GET['updateAlert'])) : ?>
+      <?php echo '<script> 
+                          Swal.fire({
+                              title               : "Book has been updated Successfully",
+                              confirmButtonColor  : "#3BCEE5",
+                              icon                : "success",
+                              iconColor           : "#3BCEE5"  
+                          })
+                  </script>' ; ?>
+      <?php endif ?>
+
+      <?php if(isset($_GET['deleteAlert'])) : ?>
+      <?php echo '<script type="text/javascript"> 
+                        let text = "Are you sure you want to delete this book !";
+                        if (confirm(text) == true) 
+                        {
+                          '.deleteBook().';
+                          console.log("deleted") ;
+                        } 
+                        
+                        else
+                        {
+                          console.log("failed") ;
+                        }
+                     ;
+                  </script>' ; ?>
+      <?php endif ?>
 </body>
 <?php
     include_once 'footer.php' ;

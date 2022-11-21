@@ -36,26 +36,33 @@
             </div>
 
             <div class="statistics_box d-flex justify-content-start align-items-center">
-                <i class="fa fa-shopping-cart"></i>
+                <i class="fas fa-book-open"></i>
                 <div>
-                    <h3>0</h3>
-                    <p class="text-muted h5">Books out</p>
+                    <h3><?php countCategories() ?></h3>
+                    <p class="text-muted h5">Categories</p>
                 </div>
             </div>
 
-            <div class="statistics_box d-flex justify-content-start align-items-center">
-                <i class="fa fa-dollar"></i>
-                <div>
-                    <h3>0</h3>
-                    <p class="text-muted h5">Earnings</p>
-                </div>
-            </div>
         </div>
+        
+        <h3 class="titles">Recent books</h3>
         <div class="statistics2">
             <?php recentBooks() ?>
-            <?php recentUsers() ?>
         </div>  
     </section>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <?php if(isset($_GET['updateProfileAlert'])) : ?>
+      <?php echo '<script> 
+                          Swal.fire({
+                              title               : "Profile has been updated Successfully",
+                              confirmButtonColor  : "#3BCEE5",
+                              icon                : "success",
+                              iconColor           : "#3BCEE5"  
+                          })
+                  </script>' ; ?>
+      <?php endif ?>
 
     <?php
         include_once 'footer.php' ;

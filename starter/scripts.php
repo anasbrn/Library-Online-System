@@ -7,11 +7,12 @@
     if(isset($_POST['signIn'])) signIn() ;
     if(isset($_POST['update'])) updateProfile() ;
     if(isset($_POST['edit'])) updateBook() ;
-    if(isset($_POST['delete'])) deleteBook() ;
+    if(isset($_POST['delete'])) confirmDelete() ;
 
 
 
 function addBooks(){
+    
     global $connection ;
     $title       = $_POST['title'] ;
     $author      = $_POST['author'] ;
@@ -19,7 +20,8 @@ function addBooks(){
     $photo       = $_FILES['img']['name'] ;
     $price = $_POST['price'] ;
 
-    $upload = "C:/Users/Youcode/Documents/Library-Online-System/design/img/books/".$photo ;
+    $upload = dirname(__DIR__,1)."/design/img/books/".$photo ;
+    echo $upload ;
     move_uploaded_file($_FILES['img']['tmp_name'], $upload) ;
 
     $sql = "INSERT INTO `book` (`id-book`, `title`, `author`, `price`, `photo`, `categoryId`) 
@@ -28,16 +30,16 @@ function addBooks(){
     $result = mysqli_query($connection, $sql) ;
     
     if($result){
-        header("location: books.php") ;
+        $addAlert = "success" ;
+        header("location: books.php?addAlert=". $addAlert) ;
     }
-
 }
 
 function getBooks(){
     global $connection ;
     $sql = "SELECT title, author, price, photo, categoryName, photo, `id-book` FROM book JOIN category ON book.categoryId = category.categoryId" ;
     $result = mysqli_query($connection, $sql) ;
-    if (mysqli_num_rows($result) > 0) {
+    
         ?>
             <div class="table_books">
                 <table class="table books bg-white">
@@ -53,10 +55,11 @@ function getBooks(){
                     </thead>
                     <tbody>
                     <?php
+                    if (mysqli_num_rows($result) > 0) {
                     while ($row = mysqli_fetch_assoc($result)){
                     ?>
                         <tr>
-                            <td id="bookId<?php echo $row['id-book']?>" hidden> <?php echo $row['id-book'] ?> </td>
+                            <td id="bookId<?php echo $row['id-book']?>" name="id-book"> <?php echo $row['id-book'] ?> </td>
                             <td ><img src="/design/img/books/<?php echo $row['photo'] ?>" width="30px" height="40px" id="bookPhoto<?php echo $row['id-book']?>"></td>
                             <td id="bookTitle<?php echo $row['id-book']?>"><?php echo $row['title'] ?></td>
                             <td id="bookAuthor<?php echo $row['id-book']?>"> <?php echo $row['author'] ?></td>
@@ -97,18 +100,25 @@ function countUsers(){
     echo $data['numberUsers'] ;
 }
 
+function countCategories(){
+    global $connection ;
+    $sql = " SELECT COUNT(categoryName) AS numberCategories FROM category " ;
+    $result = mysqli_query($connection, $sql) ;
+    $data = mysqli_fetch_assoc($result) ;
+    echo $data['numberCategories'] ;
+}
+
 function recentBooks(){
     global $connection ;
-    $sql = " SELECT title, categoryName, photo FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
+    $sql = " SELECT title, categoryName, photo, price, author FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
     $result = mysqli_query($connection, $sql) ; ?>
     <table class="table bg-white">
                 <thead>
                     <tr>
-                        <th colspan="4" class="text-center h3">Recent books</th>
-                    </tr>
-                    <tr>
                         <th scope="col">photo</th>
                         <th scope="col">Name</th>
+                        <th scope="col">Author</th>
+                        <th scope="col">Price</th>
                         <th scope="col">Category</th>
                     </tr>
                 </thead>
@@ -119,6 +129,8 @@ function recentBooks(){
                     <tr>
                         <td><img src="/design/img/books/<?php echo $data['photo'] ?>" width="30px" height="40px"></td>
                         <td><?php echo $data['title'] ?></td>
+                        <td><?php echo $data['author'] ?></td>
+                        <td><?php echo $data['price'] ?> DH</td>
                         <td><?php echo $data['categoryName'] ?></td>
                     </tr>
                 <?php
@@ -222,8 +234,10 @@ function updateProfile(){
         $result     = mysqli_query($connection, $sql) ;
         $row        = mysqli_fetch_assoc($result) ;
         $_SESSION['welcomeBack']    = " 👋 Welcome back<b> ".$row['username']."</b> !";
+        $_SESSION['username'] = $row['username'] ;
 
-       header('location: dashboard.php') ;
+        $updateProfileAlert = "update_profile_successfully" ;
+        header('location: dashboard.php?updateProfileAlert='.$updateProfileAlert) ;
        
     }
 
@@ -238,19 +252,34 @@ function updateBook(){
     $photo       = $_FILES['img']['name'] ;
     $price       = $_POST['price'] ;
 
-    $upload = "C:/Users/Anas/Documents/Library-Online-System/design/img/books/".$photo ;
+    $upload = dirname(__DIR__,1)."/design/img/books/".$photo ;
     move_uploaded_file($_FILES['img']['tmp_name'], $upload) ;
 
     $sql = " UPDATE book SET `title` = '$title', `author` = '$author', `categoryId` = $category, `photo` = '$photo', `price` = '$price' WHERE `id-book` = $id " ;
     $result = mysqli_query($connection, $sql);
     if($result){
-        header('location: books.php') ;
+        $updateAlert = "update_successfully" ;
+        header('location: books.php?updateAlert='.$updateAlert) ;
     }
+}
+
+function confirmDelete(){
+        global $connection ;
+        $_SESSION['id-book']     = $_POST['id-book'] ;
+        echo $id ;
+        $deleteAlert = "delete_successfully" ;
+        header("location: books.php?deleteAlert=".$deleteAlert) ;
 }
 
 function deleteBook(){
     global $connection ;
-    $id     = $_POST['id-book'] ;
+    $id     = $_SESSION['id-book'] ;
+    // echo $id;
     $sql    = " DELETE FROM book WHERE `id-book` = $id " ;
     $result = mysqli_query($connection, $sql) ;
+
+//     if ($result) 
+//     {
+//         header("location: books.php") ;
+//     }
 }
