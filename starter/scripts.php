@@ -5,6 +5,10 @@
     if(isset($_POST['save'])) addBooks() ;
     if(isset($_POST['register'])) register() ;
     if(isset($_POST['signIn'])) signIn() ;
+    if(isset($_POST['update'])) updateProfile() ;
+    if(isset($_POST['edit'])) updateBook() ;
+    if(isset($_POST['delete'])) deleteBook() ;
+
 
 
 function addBooks(){
@@ -13,44 +17,67 @@ function addBooks(){
     $author      = $_POST['author'] ;
     $category    = $_POST['category'] ;
     $photo       = $_FILES['img']['name'] ;
-    $description = $_POST['description'] ;
+    $price = $_POST['price'] ;
 
     $upload = "C:/Users/Youcode/Documents/Library-Online-System/design/img/books/".$photo ;
     move_uploaded_file($_FILES['img']['tmp_name'], $upload) ;
 
-    $sql = "INSERT INTO `book` (`id-book`, `title`, `author`, `description`, `photo`, `categoryId`) 
-    VALUES (null, '$title', '$author', '$description', '$photo', $category)" ;
+    $sql = "INSERT INTO `book` (`id-book`, `title`, `author`, `price`, `photo`, `categoryId`) 
+    VALUES (null, '$title', '$author', $price, '$photo', $category)" ;
 
     $result = mysqli_query($connection, $sql) ;
+    
     if($result){
-        echo "Book has been added successfully" ;
-    }
-
-    else {
-        "error" ;
+        header("location: books.php") ;
     }
 
 }
 
 function getBooks(){
     global $connection ;
-    $sql = "SELECT title, author, description, photo, categoryName, photo FROM book JOIN category ON book.categoryId = category.categoryId" ;
+    $sql = "SELECT title, author, price, photo, categoryName, photo, `id-book` FROM book JOIN category ON book.categoryId = category.categoryId" ;
     $result = mysqli_query($connection, $sql) ;
     if (mysqli_num_rows($result) > 0) {
-        while ($row = mysqli_fetch_assoc($result)){
-            ?>
-            <div class="card_books">
-                <div class="card my-2">
-                    <img class="card-img-top" src="/design/img/books/<?php echo $row['photo'] ?>" height="220px">
-                <div class="card-body">
-                    <h5 class="card-title"><?php echo $row['title'] ?></h5>
-                    <p class="card-text"><b>Author</b>: <?php echo $row['author'] ?></p>
-                    <p ><b>Category</b> : <?php echo $row['categoryName'] ?></p>
-                    <a href="#" class="btn btn-info text-white">Buy</a>
+        ?>
+            <div class="table_books">
+                <table class="table books bg-white">
+                    <thead>
+                        <tr>
+                            <th scope="col">Photo</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Author</th>
+                            <th scope="col">Price</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php
+                    while ($row = mysqli_fetch_assoc($result)){
+                    ?>
+                        <tr>
+                            <td id="bookId<?php echo $row['id-book']?>" hidden> <?php echo $row['id-book'] ?> </td>
+                            <td ><img src="/design/img/books/<?php echo $row['photo'] ?>" width="30px" height="40px" id="bookPhoto<?php echo $row['id-book']?>"></td>
+                            <td id="bookTitle<?php echo $row['id-book']?>"><?php echo $row['title'] ?></td>
+                            <td id="bookAuthor<?php echo $row['id-book']?>"> <?php echo $row['author'] ?></td>
+                            <td id="bookPrice<?php echo $row['id-book']?>"><?php echo $row['price']?> DH</td>
+                            <td id="bookCategory<?php echo $row['id-book']?>"><?php echo $row['categoryName'] ?></td>
+                            <td class="">
+                                <button onclick="editBook(<?php echo $row['id-book']?>)" class="btn btn-rounded btn-secondary p-0 col-6" data-bs-toggle="modal" data-bs-target="#editbook">Edit</button>
+                                <form action="" method="post">
+                                    <input type="hidden" name="id-book" value="<?php echo $row['id-book']?>">
+                                <button type="submit" class="btn btn-rounded btn-danger text-white p-0 col-6" name="delete">delete</button>
+                                </form>
+                            </td>
+                        </tr>
+                        <?php
+                        }
+                        ?>
+                    </tbody>
+                </table>
                 </div>
-            </div>
-            <?php
-        }
+                <?php
+            
     }
 }
 
@@ -72,7 +99,7 @@ function countUsers(){
 
 function recentBooks(){
     global $connection ;
-    $sql = " SELECT title, categoryName FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
+    $sql = " SELECT title, categoryName, photo FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
     $result = mysqli_query($connection, $sql) ; ?>
     <table class="table bg-white">
                 <thead>
@@ -80,6 +107,7 @@ function recentBooks(){
                         <th colspan="4" class="text-center h3">Recent books</th>
                     </tr>
                     <tr>
+                        <th scope="col">photo</th>
                         <th scope="col">Name</th>
                         <th scope="col">Category</th>
                     </tr>
@@ -89,6 +117,7 @@ function recentBooks(){
                     while ($data = mysqli_fetch_assoc($result)){
                 ?>
                     <tr>
+                        <td><img src="/design/img/books/<?php echo $data['photo'] ?>" width="30px" height="40px"></td>
                         <td><?php echo $data['title'] ?></td>
                         <td><?php echo $data['categoryName'] ?></td>
                     </tr>
@@ -104,14 +133,14 @@ function register(){
     global $connection ;
     $username   = trim(strtolower($_POST['username'])) ;
     $email      = trim(strtolower($_POST['email'])) ;
-    $password   = md5($_POST['password']) ;
+    $password   = ($_POST['password']) ;
 
-    $check      = " SELECT * FROM `user` WHERE `email` = '$email' " ;
+    $check      = " SELECT * FROM `user` WHERE `email` = '$email' AND `username` = '$username' " ;
     $result     = mysqli_query($connection, $check) ;
 
     if (mysqli_num_rows($result) > 0) {
         header("location: signUp.php") ;
-        $_SESSION['check'] = "This email already exists!" ;
+        $_SESSION['check'] = "This email or username already exists!" ;
     }
 
     else {
@@ -125,15 +154,19 @@ function register(){
 function signIn(){
     global $connection ;
     $email      = trim(strtolower($_POST['email'])) ;
-    $password   = md5($_POST['password']) ;
+    $password   = ($_POST['password']) ;
+
     $sql        = " SELECT * FROM `user` WHERE `email` = '$email' AND `userPassword` = '$password' "  ;
     $result     = mysqli_query($connection, $sql) ;
     $row        = mysqli_fetch_assoc($result) ;
+
     if (mysqli_num_rows($result) > 0) {
-        $_SESSION['email']      = '$email' ;
-        $_SESSION['password']   = '$password' ;
+        $_SESSION['id']         =  $row['userId'] ;
+        $_SESSION['username']   =  $row['username'] ;
+        $_SESSION['email']      =  $row['email'] ;
+        $_SESSION['password']   =  $row['userPassword'] ;
         header("location: dashboard.php") ;
-        $_SESSION['welcomeBack']    = " 👋 Welcome back ".$row['username']." !";
+        $_SESSION['welcomeBack']    = " 👋 Welcome back<b> ".$_SESSION['username']."</b> !";
 
     }
 
@@ -141,4 +174,83 @@ function signIn(){
         header("location: signIn.php") ;
         $_SESSION['invalid'] = " Invalid username or password! " ;
     }
+}
+
+function recentUsers(){
+    global $connection ;
+    $rec = " SELECT username, email FROM user ORDER BY username DESC LIMIT 3 " ;
+    $res = mysqli_query($connection, $rec) ; ?>
+    <table class="table bg-white">
+                <thead>
+                    <tr>
+                        <th colspan="4" class="text-center h3">Recent Users</th>
+                    </tr>
+                    <tr>
+                        <th scope="col">username</th>
+                        <th scope="col">email</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <?php  
+                    while ($data = mysqli_fetch_assoc($res)){
+                ?>
+                    <tr>
+                        <td><?php echo $data['username'] ?></td>
+                        <td><?php echo $data['email'] ?></td>
+                    </tr>
+                <?php
+                    } 
+                ?>
+                </tbody>
+              </table>
+<?php
+}
+
+function updateProfile(){
+    global $connection ;
+    $username   = trim(strtolower($_POST['username'])) ;
+    $email      = trim(strtolower($_POST['email'])) ;
+    $password   = ($_POST['password']) ;
+    $id         = $_SESSION['id'] ;
+
+    if($id)
+    {
+        $update  = " UPDATE user SET username = '$username', email = '$email', userPassword = '$password' WHERE userId = '$id' ";
+        $result2    = mysqli_query($connection, $update);
+
+        $sql        = " SELECT * FROM `user` WHERE `email` = '$email' AND `userPassword` = '$password' "  ;
+        $result     = mysqli_query($connection, $sql) ;
+        $row        = mysqli_fetch_assoc($result) ;
+        $_SESSION['welcomeBack']    = " 👋 Welcome back<b> ".$row['username']."</b> !";
+
+       header('location: dashboard.php') ;
+       
+    }
+
+}
+
+function updateBook(){
+    global $connection ;
+    $id          = $_POST['id-book'] ;
+    $title       = $_POST['title'] ;
+    $author      = $_POST['author'] ;
+    $category    = $_POST['category'] ;
+    $photo       = $_FILES['img']['name'] ;
+    $price       = $_POST['price'] ;
+
+    $upload = "C:/Users/Anas/Documents/Library-Online-System/design/img/books/".$photo ;
+    move_uploaded_file($_FILES['img']['tmp_name'], $upload) ;
+
+    $sql = " UPDATE book SET `title` = '$title', `author` = '$author', `categoryId` = $category, `photo` = '$photo', `price` = '$price' WHERE `id-book` = $id " ;
+    $result = mysqli_query($connection, $sql);
+    if($result){
+        header('location: books.php') ;
+    }
+}
+
+function deleteBook(){
+    global $connection ;
+    $id     = $_POST['id-book'] ;
+    $sql    = " DELETE FROM book WHERE `id-book` = $id " ;
+    $result = mysqli_query($connection, $sql) ;
 }

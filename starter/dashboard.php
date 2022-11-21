@@ -11,7 +11,7 @@
 
         <!-- <h2 class="mt-1 text-center">👋Welcome back ** !</h1> -->
         <?php if(isset($_SESSION['welcomeBack'])) : ?> 
-                <div class="mt-2 ms-4 fw-bold h2">
+                <div class="mt-2 ms-4 h4">
                     <?php echo $_SESSION['welcomeBack']; ?>
                 </div>
                
@@ -53,23 +53,7 @@
         </div>
         <div class="statistics2">
             <?php recentBooks() ?>
-              <table class="table bg-white">
-                <thead>
-                    <tr>
-                        <th colspan="4" class="text-center h3">Recent users</th>
-                    </tr>
-                    <tr>
-                        <th scope="col">Username</th>
-                        <th scope="col">Email</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>adminadmin1</td>
-                        <td>AdminAdmin@gmail.com</td>
-                    </tr>
-                </tbody>
-              </table>
+            <?php recentUsers() ?>
         </div>  
     </section>
 

@@ -8,5 +8,6 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
     <link rel="stylesheet" href="/starter/css/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="/starter/css/style.css">
+    
     <title><?php echo $title ?></title>
 </head>

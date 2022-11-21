@@ -20,7 +20,7 @@
     <div class="parent">
         <div class="child">
             <div class="sous-child">
-            <form action="scripts.php" method="POST" class="myForm">
+            <form action="scripts.php" method="POST" class="myForm" id="signUpForm">
                 <div class="mt-4 mx-5 text-center">
                     <img src="/design/img/form/utilisateur.png" width="150" height="150">
                 </div>
@@ -34,17 +34,20 @@
 
                 <div class="mb-3 mx-5 position-relative">
                     <i class="fa fa-user text-white position-absolute"></i>
-                    <input class="form-control inputs text-white ps-4" type="text" name="username" id="username" placeholder="username" required>
+                    <input class="form-control inputs text-white ps-4" type="text" name="username" id="username" placeholder="username" oninput="usernameValidation()" required >
+                    <div class="errorUsername" id="errorUsername">*Please enter the right form</div>
                 </div>
 
                 <div class="mb-3 mx-5 position-relative">
                     <i class="fa fa-envelope text-white position-absolute"></i>
-                    <input class="form-control inputs text-white ps-4" type="email" name="email" id="email" placeholder="Email" required>
+                    <input class="form-control inputs text-white ps-4" type="email" name="email" id="email" placeholder="Email" oninput="emailValidation()" required>
+                    <div class="errorEmail" id="errorEmail">*Please enter the right form</div>
                 </div>
 
                 <div class="mb-3 mx-5 position-relative">
                     <i class="fa fa-lock text-white position-absolute"></i>
-                    <input class="form-control inputs text-white ps-4" type="password" name="password" id="password" placeholder="password" required>
+                    <input class="form-control inputs text-white ps-4" type="password" name="password" id="password" placeholder="password" oninput="passwordValidation()" required>
+                    <div class="errorPassword" id="errorPassword">*Please enter the right form</div>
                 </div>
 
                 <div class="mb-3 mx-5 text-white">
@@ -53,7 +56,7 @@
                 </div>
 
                 <div class="mb-3 mx-5 text-center">
-                    <button class="signUpButton text-white" type="submit" name="register">Sign Up</button>
+                    <button class="signUpButton text-white" type="submit" name="register" id="register">Sign Up</button>
                 </div>
 
                 <div class="text-center">
@@ -63,5 +66,6 @@
         </div>
         </div>
     </div>
+    <script src="/starter/js/app.js"></script>
 </body>
 </html>

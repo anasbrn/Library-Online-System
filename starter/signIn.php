@@ -34,12 +34,14 @@
 
                 <div class="mb-3 mx-5 position-relative">
                     <i class="fa fa-envelope text-white position-absolute"></i>
-                    <input class="form-control inputs text-white ps-4" type="email" name="email" id="email" placeholder="Email" required>
+                    <input class="form-control inputs text-white ps-4" type="email" name="email" id="email" placeholder="Email" required oninput="emailValidation()">
+                    <div class="errorEmail" id="errorEmail">*Please enter the right form</div>
                 </div>
 
                 <div class="mb-3 mx-5 position-relative">
                     <i class="fa fa-lock text-white position-absolute"></i>
-                    <input class="form-control inputs text-white ps-4" type="password" name="password" id="password" placeholder="password" required>
+                    <input class="form-control inputs text-white ps-4" type="password" name="password" id="password" placeholder="password" required oninput="passwordValidation()">
+                    <div class="errorPassword" id="errorPassword">*Please enter the right form</div>
                 </div>
 
                 <div class="mb-3 mx-5 text-white">
@@ -48,7 +50,7 @@
                 </div>
 
                 <div class="mb-5 mx-5 text-center">
-                    <button href="dashboard.php" class="signInButton text-white" type="submit" name="signIn">Sign In</button>
+                    <button href="dashboard.php" class="signInButton text-white" type="submit" name="signIn" id=register>Sign In</button>
                 </div>
 
                 <div class="text-center">
@@ -58,5 +60,6 @@
         </div>
         </div>
     </div>
+    <script src="/starter/js/app.js"></script>
 </body>
 </html>

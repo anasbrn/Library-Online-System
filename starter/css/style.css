@@ -56,7 +56,7 @@ button a{
     margin: auto;
     border-radius: 20px;
     width: 30%;
-    height: 80%;
+    height: 85%;
 }
 
 .child a{
@@ -83,8 +83,20 @@ button a{
     -webkit-text-fill-color: #fff !important;
 }
 
-.inputs:focus{
+/* .inputs:focus{
     border-bottom: 2px solid #3BCEE5 !important;
+} */
+
+.redBorder{
+    border-bottom: 2px solid red !important;
+}
+
+.whiteBorder{
+    border-bottom: 2px solid white !important;
+}
+
+.greenBorder{
+    border-bottom: 2px solid greenyellow !important;
 }
 
 
@@ -120,7 +132,7 @@ button a{
 
 
 .myForm i {
-    top: 30%;
+    top: 25%;
 }
 
 #menu{
@@ -253,20 +265,40 @@ button a{
     width: 490px;
 }
 
-.card_books{
+.table_books{
+    /* margin-left: 20px; */
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    
 }
 
-.card_books .card{
-    width: 250px;
+.books{
+    border-radius: 5px;
+    width: 90%;
 }
 
 .updateForm{
     margin: auto;
     margin-top: 20px;
     width: 40%;
+}
+
+.errorUsername{
+    display: none;
+    font-size: 10px;
+    color: red;
+}
+
+.errorEmail{
+    display: none;
+    font-size: 10px;
+    color: red;
+}
+
+.errorPassword{
+    display: none;
+    font-size: 10px;
+    color: red;
 }
 
 @media screen and (max-width: 767px) {
