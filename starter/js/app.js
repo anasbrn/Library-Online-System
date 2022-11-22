@@ -11,7 +11,7 @@ function editBook(id){
 
     console.log(tableBooks.photo);
 
-    // $("#editbook").modal("show");
+    
     document.getElementById('id-book').value      = tableBooks.id,
     // document.getElementById('photo').value      = tableBooks.photo,
     document.getElementById('title').value      = tableBooks.title,
@@ -39,6 +39,10 @@ function editBook(id){
         document.querySelector('#self-improvemen').selected = true ;
     }
 
+}
+
+function confirmDelete(id){
+    document.getElementById('bookId').value = document.querySelector(`#bookId${id}`).innerText
 }
 
 function resetForm(){
@@ -115,14 +119,17 @@ function passwordValidation() {
 }
 
 
-// function successAdd() {
-//     Swal.fire({
-//         title               : "Add Successfully",
-//         confirmButtonColor  : "#0d6efd",
-//         icon                : "success",
-//         iconColor           : "#0d6efd"  
-//     })
-// }
+function openNav() {
+    document.getElementById("mySidebar").style.width = "250px";
+    document.getElementById("main").style.marginLeft = "0px";
+    document.getElementById('mySidebar').style.display = "block" ;
+    document.getElementById('openbtn').style.display = "none" ;
+  }
+  
+  function closeNav() {
+    document.getElementById("mySidebar").style.width = "0";
+    document.getElementById("main").style.marginLeft = "0";
+    document.getElementById('openbtn').style.display = "block" ;
+  }
 
-// document.getElementById("save").addEventListener('click', successAdd()) ;
 

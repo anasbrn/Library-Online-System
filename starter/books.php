@@ -123,46 +123,83 @@
     </div>
   </div>
 </div>
+
+<!-- Modal delete book -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Confirm!</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form action="scripts.php" method="POST">
+          Are you sure you want to delete this book !
+        </div>
+        <div class="modal-footer">
+          <input type="text" hidden name="bookId" id="bookId">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-danger" name="confirm">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Modal add successfully -->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Added!</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          Book has been added successfully !
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info text-white" data-dismiss="modal">Ok</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal update successfully -->
+<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Updated!</h5>
+        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          Book has been updated successfully !
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-info text-white" data-dismiss="modal">Ok</button>
+        </div>
+    </div>
+  </div>
+</div>
+
+   
+    
+
 <script src="/starter/js/app.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-<?php if(isset($_GET['addAlert'])) : ?>
-      <?php echo '<script> 
-                          Swal.fire({
-                              title               : "Book has been added Successfully",
-                              confirmButtonColor  : "#3BCEE5",
-                              icon                : "success",
-                              iconColor           : "#3BCEE5"  
-                          })
-                  </script>' ; ?>
+<?php if(isset($_GET['addModal'])) : ?>
+      <?php echo '<script type="text/javascript">
+                     $("#addModal").modal("show");
+        </script>' ; ?>
       <?php endif ?>
 
-      <?php if(isset($_GET['updateAlert'])) : ?>
-      <?php echo '<script> 
-                          Swal.fire({
-                              title               : "Book has been updated Successfully",
-                              confirmButtonColor  : "#3BCEE5",
-                              icon                : "success",
-                              iconColor           : "#3BCEE5"  
-                          })
-                  </script>' ; ?>
-      <?php endif ?>
-
-      <?php if(isset($_GET['deleteAlert'])) : ?>
-      <?php echo '<script type="text/javascript"> 
-                        let text = "Are you sure you want to delete this book !";
-                        if (confirm(text) == true) 
-                        {
-                          '.deleteBook().';
-                          console.log("deleted") ;
-                        } 
-                        
-                        else
-                        {
-                          console.log("failed") ;
-                        }
-                     ;
-                  </script>' ; ?>
+<?php if(isset($_GET['updateModal'])) : ?>
+      <?php echo '<script type="text/javascript">
+                     $("#updateModal").modal("show");
+        </script>' ; ?>
       <?php endif ?>
 </body>
 <?php

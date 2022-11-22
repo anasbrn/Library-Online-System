@@ -11,7 +11,7 @@
 
         <!-- <h2 class="mt-1 text-center">👋Welcome back ** !</h1> -->
         <?php if(isset($_SESSION['welcomeBack'])) : ?> 
-                <div class="mt-2 ms-4 h4">
+                <div class="mt-2 ms-4 text-center h4">
                     <?php echo $_SESSION['welcomeBack']; ?>
                 </div>
                

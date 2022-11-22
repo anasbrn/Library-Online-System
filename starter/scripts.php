@@ -7,7 +7,7 @@
     if(isset($_POST['signIn'])) signIn() ;
     if(isset($_POST['update'])) updateProfile() ;
     if(isset($_POST['edit'])) updateBook() ;
-    if(isset($_POST['delete'])) confirmDelete() ;
+    if(isset($_POST['confirm'])) deleteBook() ;
 
 
 
@@ -30,8 +30,8 @@ function addBooks(){
     $result = mysqli_query($connection, $sql) ;
     
     if($result){
-        $addAlert = "success" ;
-        header("location: books.php?addAlert=". $addAlert) ;
+        $data = 1 ;
+        header("location: books.php?addModal=".$data) ;
     }
 }
 
@@ -47,9 +47,9 @@ function getBooks(){
                         <tr>
                             <th scope="col">Photo</th>
                             <th scope="col">Title</th>
-                            <th scope="col">Author</th>
-                            <th scope="col">Price</th>
-                            <th scope="col">Category</th>
+                            <th class="bookAuthor" scope="col">Author</th>
+                            <th class="bookPrice" scope="col">Price</th>
+                            <th book="bookCategory" scope="col">Category</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
@@ -59,21 +59,21 @@ function getBooks(){
                     while ($row = mysqli_fetch_assoc($result)){
                     ?>
                         <tr>
-                            <td id="bookId<?php echo $row['id-book']?>" name="id-book"> <?php echo $row['id-book'] ?> </td>
-                            <td ><img src="/design/img/books/<?php echo $row['photo'] ?>" width="30px" height="40px" id="bookPhoto<?php echo $row['id-book']?>"></td>
+                            <td id="bookId<?php echo $row['id-book']?>" hidden> <?php echo $row['id-book'] ?> </td>
+                            <td><img src="/design/img/books/<?php echo $row['photo'] ?>" width="30px" height="40px" id="bookPhoto<?php echo $row['id-book']?>"></td>
                             <td id="bookTitle<?php echo $row['id-book']?>"><?php echo $row['title'] ?></td>
-                            <td id="bookAuthor<?php echo $row['id-book']?>"> <?php echo $row['author'] ?></td>
-                            <td id="bookPrice<?php echo $row['id-book']?>"><?php echo $row['price']?> DH</td>
-                            <td id="bookCategory<?php echo $row['id-book']?>"><?php echo $row['categoryName'] ?></td>
+                            <td class="bookPhoto" id="bookAuthor<?php echo $row['id-book']?>"> <?php echo $row['author'] ?></td>
+                            <td class="bookPrice" id="bookPrice<?php echo $row['id-book']?>"><?php echo $row['price']?> DH</td>
+                            <td class="bookCategory" id="bookCategory<?php echo $row['id-book']?>"><?php echo $row['categoryName'] ?></td>
                             <td class="">
                                 <button onclick="editBook(<?php echo $row['id-book']?>)" class="btn btn-rounded btn-secondary p-0 col-6" data-bs-toggle="modal" data-bs-target="#editbook">Edit</button>
                                 <form action="" method="post">
                                     <input type="hidden" name="id-book" value="<?php echo $row['id-book']?>">
-                                <button type="submit" class="btn btn-rounded btn-danger text-white p-0 col-6" name="delete">delete</button>
+                                <button type="button" class="btn btn-rounded btn-danger text-white p-0 col-6" name="delete" data-bs-toggle="modal" data-bs-target="#deleteModal" onclick="confirmDelete(<?php echo $row['id-book']?>)">delete</button>
                                 </form>
                             </td>
                         </tr>
-                        <?php
+                        <?php $_SESSION['id-book'] = $row['id-book'] ;
                         }
                         ?>
                     </tbody>
@@ -108,7 +108,7 @@ function countCategories(){
     echo $data['numberCategories'] ;
 }
 
-function recentBooks(){
+function recentBooks(){ 
     global $connection ;
     $sql = " SELECT title, categoryName, photo, price, author FROM book JOIN category ON book.categoryId = category.categoryId ORDER BY title DESC LIMIT 3 " ;
     $result = mysqli_query($connection, $sql) ; ?>
@@ -117,9 +117,9 @@ function recentBooks(){
                     <tr>
                         <th scope="col">photo</th>
                         <th scope="col">Name</th>
-                        <th scope="col">Author</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Category</th>
+                        <th class="bookAuthor" scope="col">Author</th>
+                        <th class="bookPrice" scope="col">Price</th>
+                        <th class="bookCategory" scope="col">Category</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -129,9 +129,9 @@ function recentBooks(){
                     <tr>
                         <td><img src="/design/img/books/<?php echo $data['photo'] ?>" width="30px" height="40px"></td>
                         <td><?php echo $data['title'] ?></td>
-                        <td><?php echo $data['author'] ?></td>
-                        <td><?php echo $data['price'] ?> DH</td>
-                        <td><?php echo $data['categoryName'] ?></td>
+                        <td class="bookAuthor"><?php echo $data['author'] ?></td>
+                        <td class="bookPrice"><?php echo $data['price'] ?> DH</td>
+                        <td class="bookCategory"><?php echo $data['categoryName'] ?></td>
                     </tr>
                 <?php
                     } 
@@ -235,9 +235,7 @@ function updateProfile(){
         $row        = mysqli_fetch_assoc($result) ;
         $_SESSION['welcomeBack']    = " 👋 Welcome back<b> ".$row['username']."</b> !";
         $_SESSION['username'] = $row['username'] ;
-
-        $updateProfileAlert = "update_profile_successfully" ;
-        header('location: dashboard.php?updateProfileAlert='.$updateProfileAlert) ;
+        header('location: dashboard.php') ;
        
     }
 
@@ -258,28 +256,19 @@ function updateBook(){
     $sql = " UPDATE book SET `title` = '$title', `author` = '$author', `categoryId` = $category, `photo` = '$photo', `price` = '$price' WHERE `id-book` = $id " ;
     $result = mysqli_query($connection, $sql);
     if($result){
-        $updateAlert = "update_successfully" ;
-        header('location: books.php?updateAlert='.$updateAlert) ;
+        $data = 2 ;
+        header('location: books.php?updateModal='.$data) ;
     }
-}
-
-function confirmDelete(){
-        global $connection ;
-        $_SESSION['id-book']     = $_POST['id-book'] ;
-        echo $id ;
-        $deleteAlert = "delete_successfully" ;
-        header("location: books.php?deleteAlert=".$deleteAlert) ;
 }
 
 function deleteBook(){
     global $connection ;
-    $id     = $_SESSION['id-book'] ;
-    // echo $id;
+    $id     = $_POST['bookId'] ;
     $sql    = " DELETE FROM book WHERE `id-book` = $id " ;
     $result = mysqli_query($connection, $sql) ;
 
-//     if ($result) 
-//     {
-//         header("location: books.php") ;
-//     }
+    if ($result) 
+    {
+        header("location: books.php") ;
+    }
 }
