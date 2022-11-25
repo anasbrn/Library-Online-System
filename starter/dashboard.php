@@ -10,6 +10,17 @@
 ?>
 
         <!-- <h2 class="mt-1 text-center">👋Welcome back ** !</h1> -->
+        
+        <?php if(isset($_SESSION['addAccount'])) : ?>
+            <div class="mx-2 my-2 alert alert-success alert-dismissible fade show">
+                <strong>Success!</strong>
+                <?php echo $_SESSION['addAccount'] ;
+            unset($_SESSION['addAccount']) ;
+        ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+        </div>
+        <?php endif ?>
+        
         <?php if(isset($_SESSION['welcomeBack'])) : ?> 
                 <div class="mt-2 ms-4 text-center h4">
                     <?php echo $_SESSION['welcomeBack']; ?>
@@ -47,23 +58,10 @@
         
         <h3 class="titles">Recent books</h3>
         <div class="statistics2">
-            <?php recentBooks() ?>
+            <?php recentBooks() ; ?>
+            <?php recentBooksMob() ; ?>
         </div>  
     </section>
-
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-
-    <?php if(isset($_GET['updateProfileAlert'])) : ?>
-      <?php echo '<script> 
-                          Swal.fire({
-                              title               : "Profile has been updated Successfully",
-                              confirmButtonColor  : "#3BCEE5",
-                              icon                : "success",
-                              iconColor           : "#3BCEE5"  
-                          })
-                  </script>' ; ?>
-      <?php endif ?>
-
     <?php
         include_once 'footer.php' ;
     ?>

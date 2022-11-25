@@ -10,7 +10,7 @@
 }
 
 .dashboard_page{
-    background-color: rgb(202, 199, 199);
+    background-color: #f8f8f8;
     width: 100%;
     position: relative;
     display: flex;
@@ -39,6 +39,25 @@ button a{
 }
 
 .login_responsive{
+    display: none;
+}
+
+.cards{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card{
+    box-shadow: 2px 3px 15px #0003;
+}
+
+.card-img-top{
+    width: 100%;
+    height: 400px;
+}
+
+.row{
     display: none;
 }
 
@@ -135,8 +154,21 @@ button a{
     top: 25%;
 }
 
+.profileUsername{
+    box-shadow: 2px 3px 15px #0003;
+}
+
+.profileEmail{
+    box-shadow: 2px 3px 15px #0003;
+}
+
+.profilePassword{
+    box-shadow: 2px 3px 15px #0003;
+}
+
 #mySidebar{
-    background: black;
+    background: #000000;
+    box-shadow: 2px 3px 15px #0003;
     width: 200px;
     height: 100vh;
 }
@@ -183,13 +215,14 @@ button a{
 
 #interface{
     margin-left: 200px;
-    width: calc(100% - 200px)
+    width: calc(100% - 200px);
 }
 
 #interface .navigation .nav .profile i{
     font-size: 30px;
     margin: 10px 5px;
     padding-right: 10px;
+    color:rgb(255, 255, 255) !important ;
 }
 
 
@@ -198,13 +231,13 @@ button a{
 #interface .navigation{
     display: flex;
     justify-content: end;
-    background-color: black;
-    border-bottom: 3px solid #3BCEE5;
+    background-color: #000000;
+    box-shadow: 2px 3px 15px #0003;
 }
 
 .titles{
     padding: 30px 0 10px 30px;
-    margin-left: 10px;
+    margin-left: 20px;
     font-size: 25px;
     font-weight: bold;
 }
@@ -233,6 +266,7 @@ button a{
     padding: 10px 15px;
     border-radius: 5px;
     margin-bottom: 10px;
+    box-shadow: 2px 3px 15px #0003;
 }
 
 .statistics .statistics_box i{
@@ -261,13 +295,12 @@ button a{
 
 
 .table{
-
     border-radius: 5px;
-    width: 93%;
+    width: 90%;
+    box-shadow: 2px 3px 15px #0003;
 }
 
 .table_books{
-    /* margin-left: 20px; */
     display: flex;
     justify-content: center;
     
@@ -341,8 +374,10 @@ button a{
     display: none;
     font-size: 22px;
     cursor: pointer;
+    z-index: 1;
     background-color: rgb(0, 0, 0);
     color: white;
+    position: absolute;
     padding: 10px 15px;
     border: none;
     border-bottom: #3BCEE5;
@@ -364,6 +399,14 @@ button a{
   } */
 
 @media screen and (max-width: 767px) {
+    .row{
+        display: block;
+    }
+
+    .table{
+        display: none;
+    }
+
     .child {
         width: 80%;
         height: 80%;
@@ -428,6 +471,20 @@ button a{
 
     .bookCategory{
         display: none;
+    }
+
+    .updateForm {
+        margin: auto;
+        margin-top: 20px;
+        width: 80%;
+    }
+
+    .titles {
+        padding: 30px 0 10px 0px;
+        font-size: 25px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
     }
 }
 
@@ -533,7 +590,45 @@ button a{
         display: none;
     }
 
+    .updateForm {
+        margin: auto;
+        margin-top: 20px;
+        width: 90%;
+    }
 
+    .titles {
+        padding: 30px 0 10px 0px;
+        font-size: 25px;
+        font-weight: bold;
+        display: flex;
+        justify-content: center;
+    }
+
+    .row{
+        display: block;
+    }
+
+    .table{
+        display: none;
+    }
+}
+
+@media screen and (min-width:1024px) {
+    .openbtn{
+        display: none !important;
+    }
+
+    .sidebar{
+        display: block !important;
+        width: 200px !important;
+    }
+
+    #interface {
+        margin-left: 200px !important;
+        width: calc(100% - 200px) !important;
+    }
 
 }
+
+
 

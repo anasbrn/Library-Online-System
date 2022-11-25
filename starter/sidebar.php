@@ -15,7 +15,7 @@
         </div>
       </div>
       
-      <div id="main">
+      <div id="main" class="position-relative">
         <button id="openbtn" class="openbtn" onclick="openNav()">&#9776;</button>
       </div>
       

@@ -2,22 +2,21 @@ function editBook(id){
     // document.getElementById('button').click();
     let tableBooks = {
         id      : document.querySelector(`#bookId${id}`).innerText,
-        // photo   : document.getElementById(`bookPhoto${id}`).src ,
         title   : document.querySelector(`#bookTitle${id}`).innerText,
+        quantity   : document.querySelector(`#bookQuantity${id}`).innerText ,
         author  : document.querySelector(`#bookAuthor${id}`).innerText,
         price   : document.querySelector(`#bookPrice${id}`).innerText,
         category: document.querySelector(`#bookCategory${id}`).innerText,
     }
-
-    console.log(tableBooks.photo);
-
     
     document.getElementById('id-book').value      = tableBooks.id,
-    // document.getElementById('photo').value      = tableBooks.photo,
+    document.getElementById('quantity').value      = tableBooks.quantity,
     document.getElementById('title').value      = tableBooks.title,
     document.getElementById('author').value     = tableBooks.author,
     document.getElementById('price').value      = tableBooks.price,
     document.getElementById('category').value   = tableBooks.category
+
+    // console.log(document.getElementById('quantity').value);
     
     if (tableBooks.category === 'Adventure')
     {
@@ -121,15 +120,17 @@ function passwordValidation() {
 
 function openNav() {
     document.getElementById("mySidebar").style.width = "250px";
-    document.getElementById("main").style.marginLeft = "0px";
     document.getElementById('mySidebar').style.display = "block" ;
     document.getElementById('openbtn').style.display = "none" ;
   }
   
   function closeNav() {
     document.getElementById("mySidebar").style.width = "0";
-    document.getElementById("main").style.marginLeft = "0";
     document.getElementById('openbtn').style.display = "block" ;
+    document.getElementById('mySidebar').style.display = "none" ;
+    
   }
+
+
 
 

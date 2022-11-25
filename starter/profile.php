@@ -7,15 +7,24 @@
         header("location: signIn.php");
     }
 ?>
-    <?php if(isset($_SESSION['fieldMessage'])) : ?>
-        <div class="alert alert-red">
-            <strong>Error!</strong>
-            <?php 
-                echo $_SESSION['fieldMessage']; 
-                unset($_SESSION['fieldMessage']);
-                ?>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
-        </div>
+    <?php if(isset($_SESSION['accountExist'])) : ?>
+      <div class="mx-2 my-2 alert alert-danger alert-dismissible fade show">
+        <strong>Error!</strong>
+        <?php echo $_SESSION['accountExist'] ;
+            unset($_SESSION['accountExist']) ;
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+      </div>
+    <?php endif ?>
+    
+    <?php if(isset($_SESSION['addAccount'])) : ?>
+      <div class="mx-2 my-2 alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong>
+        <?php echo $_SESSION['addAccount'] ;
+            unset($_SESSION['addAccount']) ;
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+      </div>
     <?php endif ?>
 
     
@@ -27,26 +36,29 @@
 
         <div class="mb-3">
             <label for="username" class="form-label">Username</label>
-            <input type="text" class="form-control" id="username" name="username"  value="<?php echo $_SESSION['username']  ?>" required>
+            <input type="text" class="form-control profileUsername" id="username" name="username"  oninput="usernameValidation()" value="<?php echo $_SESSION['username']  ?>" required>
+            <div class="errorUsername" id="errorUsername">*Please enter the right form</div>
         </div>
 
         <div class="mb-3">
             <label for="author" class="form-label">Email</label>
-            <input type="Email" class="form-control" id="email" name="email" value="<?php echo $_SESSION['email']  ?>" required>
+            <input type="Email" class="form-control profileEmail" id="email" name="email" oninput="emailValidation()" value="<?php echo $_SESSION['email']  ?>" required>
+            <div class="errorEmail" id="errorEmail">*Please enter the right form</div>
         </div>
 
         <div class="mb-3">
             <label for="password" class="form-label">Password</label>
-            <input type="password" class="form-control" id="password" name="password" value="<?php echo $_SESSION['password']  ?>" required>
+            <input type="password" class="form-control profilePassword" id="password" name="password" oninput="passwordValidation()" value="<?php echo $_SESSION['password']  ?>" required>
+            <div class="errorPassword" id="errorPassword">*Please enter the right form</div>
         </div>
         
       <div class="">
-        <button type="submit" class="btn btn-info text-white" name="update">Update</button>
+        <button type="submit" class="btn btn-dark text-white" name="update" id="register">Update</button>
       </div>
       
       </form>
 
-<!-- <script src="/js/app.js"></script> -->
+<script src="/js/app.js"></script>
 <?php
     include_once 'footer.php' ;
 ?>

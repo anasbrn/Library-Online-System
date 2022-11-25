@@ -1,27 +1,61 @@
 <?php
     $title  = 'Books' ;
-    include 'scripts.php' ;
     include_once 'head.php' ; 
     include_once 'sidebar.php' ;
+    include 'scripts.php' ;
     if(!isset($_SESSION['welcomeBack'])){
       header("location: signIn.php");
   }
 ?>
 
 <body>
+      <?php if(isset($_SESSION['add'])) : ?>
+        <div class="mx-2 my-2 alert alert-success alert-dismissible fade show">
+            <strong>Success!</strong>
+            <?php 
+                echo $_SESSION['add']; 
+                unset($_SESSION['add']);
+            ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+        </div>
+      <?php endif ?>
+    
+    <?php if(isset($_SESSION['delete'])) : ?>
+      <div class="mx-2 my-2 alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong>
+        <?php echo $_SESSION['delete'] ;
+            unset($_SESSION['delete']) ;
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+      </div>
+    <?php endif ?>
+
+    <?php if(isset($_SESSION['update'])) : ?>
+      <div class="mx-2 my-2 alert alert-success alert-dismissible fade show">
+        <strong>Success!</strong>
+        <?php echo $_SESSION['update'] ;
+            unset($_SESSION['update']) ;
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+      </div>
+    <?php endif ?>
+
+    <?php if(isset($_SESSION['exist'])) : ?>
+      <div class="mx-2 my-2 alert alert-danger alert-dismissible fade show">
+        <strong>Error!</strong>
+        <?php echo $_SESSION['exist'] ;
+            unset($_SESSION['exist']) ;
+        ?>
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></span>
+      </div>
+    <?php endif ?>
+
     <div class="my-2 mx-2 d-flex justify-content-end">
-        <button class="btn btn-info btn-rounded text-white" onclick="resetForm()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add book<i class="fa fa-plus mx-1 text-dark"></i></button>
+        <button class="btn btn-dark btn-rounded text-white" onclick="resetForm()" data-bs-toggle="modal" data-bs-target="#exampleModal">Add book<i class="fa fa-plus mx-1 text-white"></i></button>
     </div>
 
-    <?php getBooks() ?>
-    
- 
-    <!-- <?php if(isset($_GET['alert'])) : ?>
-      <?php echo "<script> alert('".$_GET['alert']."')</script>" ?>
-    <?php endif ?> -->
-
-
-    
+    <?php getBooks() ; ?>    
+    <?php getBooksMob() ; ?>    
 
 <!-- Modal Add Book -->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -57,13 +91,18 @@
           </div>
 
           <div class="mb-3">
+            <label for="quantity" class="col-form-label">Quantity</label>
+            <input class="form-control"  name="quantity" type="number" required></input>
+          </div>
+
+          <div class="mb-3">
             <label for="price" class="col-form-label">Price</label>
             <input class="form-control"  name="price" required></input>
           </div>
       </div>
       <div class="modal-footer" id="buttonModal">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info text-white" name="save" id="addBook" >Save</button>
+        <button type="submit" class="btn btn-dark text-white" name="save" id="addBook" >Save</button>
         
       </div>
       
@@ -107,6 +146,11 @@
           </div>
 
           <div class="mb-3">
+            <label for="quantity" class="col-form-label">Quantity</label>
+            <input class="form-control"  name="quantity" type="number" id="quantity"  required></input>
+          </div>
+
+          <div class="mb-3">
             <label for="price" class="col-form-label">Price</label>
             <input class="form-control" id="price" name="price" required></input>
           </div>
@@ -115,7 +159,7 @@
       <div class="modal-footer" id="buttonModal">
         <input type="hidden" name="id-book" id="id-book">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="submit" class="btn btn-info text-white" name="edit">Update</button>
+        <button type="submit" class="btn btn-dark text-white" name="edit">Update</button>
         
       </div>
       
@@ -146,61 +190,17 @@
   </div>
 </div>
 
-<!-- Modal add successfully -->
-<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Added!</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          Book has been added successfully !
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info text-white" data-dismiss="modal">Ok</button>
-        </div>
-    </div>
-  </div>
-</div>
-
-<!-- Modal update successfully -->
-<div class="modal fade" id="updateModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Updated!</h5>
-        <button type="button" class="btn-close" data-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-          Book has been updated successfully !
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-info text-white" data-dismiss="modal">Ok</button>
-        </div>
-    </div>
-  </div>
-</div>
 
    
     
 
 <script src="/starter/js/app.js"></script>
 <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script> -->
 
-<?php if(isset($_GET['addModal'])) : ?>
-      <?php echo '<script type="text/javascript">
-                     $("#addModal").modal("show");
-        </script>' ; ?>
-      <?php endif ?>
 
-<?php if(isset($_GET['updateModal'])) : ?>
-      <?php echo '<script type="text/javascript">
-                     $("#updateModal").modal("show");
-        </script>' ; ?>
-      <?php endif ?>
+
 </body>
 <?php
     include_once 'footer.php' ;
